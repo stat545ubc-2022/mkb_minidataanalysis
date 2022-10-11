@@ -1,0 +1,396 @@
+---
+title: "Mini Data-Analysis Deliverable 1"
+output: github_document
+---
+
+# Welcome to your (maybe) first-ever data analysis project!
+
+And hopefully the first of many. Let's get started:
+
+1.  Install the [`datateachr`](https://github.com/UBC-MDS/datateachr) package by typing the following into your **R terminal**:
+
+<!-- -->
+
+    install.packages("devtools")
+    devtools::install_github("UBC-MDS/datateachr")
+
+#mitchi: note to self, installing packages in the consule is best!! 
+
+2.  Load the packages below.
+
+
+```{r}
+library(datateachr)
+library(tidyverse)
+```
+
+3.  Make a repository in the <https://github.com/stat545ubc-2022> Organization. You will be working with this repository for the entire data analysis project. You can either make it public, or make it private and add the TA's and Lucy as collaborators. A link to help you create a private repository is available on the #collaborative-project Slack channel. 
+
+# Instructions
+
+## For Both Milestones
+
+-   Each milestone is worth 45 points. The number of points allocated to each task will be annotated within each deliverable. Tasks that are more challenging will often be allocated more points.
+
+-   10 points will be allocated to the reproducibility, cleanliness, and coherence of the overall analysis. While the two milestones will be submitted as independent deliverables, the analysis itself is a continuum - think of it as two chapters to a story. Each chapter, or in this case, portion of your analysis, should be easily followed through by someone unfamiliar with the content. [Here](https://swcarpentry.github.io/r-novice-inflammation/06-best-practices-R/) is a good resource for what constitutes "good code". Learning good coding practices early in your career will save you hassle later on!
+
+## For Milestone 1
+
+**To complete this milestone**, edit [this very `.Rmd` file](https://raw.githubusercontent.com/UBC-STAT/stat545.stat.ubc.ca/master/content/mini-project/mini-project-1.Rmd) directly. Fill in the sections that are tagged with `<!--- start your work below --->`.
+
+**To submit this milestone**, make sure to knit this `.Rmd` file to an `.md` file by changing the YAML output settings from `output: html_document` to `output: github_document`. Commit and push all of your work to the mini-analysis GitHub repository you made earlier, and tag a release on GitHub. Then, submit a link to your tagged release on canvas.
+
+**Points**: This milestone is worth 45 points: 43 for your analysis, 1 point for having your Milestone 1 document knit error-free, and 1 point for tagging your release on Github.
+
+# Learning Objectives
+
+By the end of this milestone, you should:
+
+-   Become familiar with your dataset of choosing
+-   Select 4 questions that you would like to answer with your data
+-   Generate a reproducible and clear report using R Markdown
+-   Become familiar with manipulating and summarizing your data in tibbles using `dplyr`, with a research question in mind.
+
+# Task 1: Choose your favorite dataset (10 points)
+
+The `datateachr` package by Hayley Boyce and Jordan Bourak currently composed of 7 semi-tidy datasets for educational purposes. Here is a brief description of each dataset:
+
+-   *apt_buildings*: Acquired courtesy of The City of Toronto's Open Data Portal. It currently has 3455 rows and 37 columns.
+
+-   *building_permits*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 20680 rows and 14 columns.
+
+-   *cancer_sample*: Acquired courtesy of UCI Machine Learning Repository. It currently has 569 rows and 32 columns.
+
+-   *flow_sample*: Acquired courtesy of The Government of Canada's Historical Hydrometric Database. It currently has 218 rows and 7 columns.
+
+-   *parking_meters*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 10032 rows and 22 columns.
+
+-   *steam_games*: Acquired courtesy of Kaggle. It currently has 40833 rows and 21 columns.
+
+-   *vancouver_trees*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 146611 rows and 20 columns.
+
+**Things to keep in mind**
+
+-   We hope that this project will serve as practice for carrying our your own *independent* data analysis. Remember to comment your code, be explicit about what you are doing, and write notes in this markdown document when you feel that context is required. As you advance in the project, prompts and hints to do this will be diminished - it'll be up to you!
+
+-   Before choosing a dataset, you should always keep in mind **your goal**, or in other ways, *what you wish to achieve with this data*. This mini data-analysis project focuses on *data wrangling*, *tidying*, and *visualization*. In short, it's a way for you to get your feet wet with exploring data on your own.
+
+And that is exactly the first thing that you will do!
+
+1.1 Out of the 7 datasets available in the `datateachr` package, choose **4** that appeal to you based on their description. Write your choices below:
+
+**Note**: We encourage you to use the ones in the `datateachr` package, but if you have a dataset that you'd really like to use, you can include it here. But, please check with a member of the teaching team to see whether the dataset is of appropriate complexity. Also, include a **brief** description of the dataset here to help the teaching team understand your data.
+
+<!-------------------------- Start your work below ---------------------------->
+
+1: *cancer_sample*
+2: *vancouver_trees*
+3: *apt_buildings*
+4: *flow_sample*
+
+I have my own dataset too, if this was something interesting to see for the teaching team. I work with psycholinguistics data where participants will listen to acoustic signal on a spectral-durational continuum from the vowel in the word "BEAT" to the vowel in the word "BIT". Participants from different language backgrounds will categorize these data as being "BEAT" or "BIT". Bilinguals with experience in a creole language called "Pidgin" are expected to be more experienced with Pidgin and thus be better at using duration to differentiate between BEAT and BIT, while English monolinguals are more likely to predominately use spectral cues to differentiate between the vowels. 
+The data is binomial and quantified using each participants proportion of "BEAT" response, using marked points along the spectral durational continuum. 
+
+As I am aiming to use the data included in cancer_sample, I am trying to familiarize myself here. 
+This dataset appears to identify various (mean and sd) measures of tumor samples per patient, the measures of their worst tumor, along with each patient's diagnosis as M = malignant, B = benign.
+
+<!----------------------------------------------------------------------------->
+
+1.2 One way to narrowing down your selection is to *explore* the datasets. Use your knowledge of dplyr to find out at least *3* attributes about each of these datasets (an attribute is something such as number of rows, variables, class type...). The goal here is to have an idea of *what the data looks like*.
+
+*Hint:* This is one of those times when you should think about the cleanliness of your analysis. I added a single code chunk for you below, but do you want to use more than one? Would you like to write more comments outside of the code chunk?
+
+<!-------------------------- Start your work below ---------------------------->
+
+```{r}
+### EXPLORE HERE ###
+steam_games # i dont like it, it's too messy
+cancer_sample #i used to work in cancer biology before changing paths, this data makes more sense to me and is numerical which is more similar to work that i do now in computational linguistics 
+apt_buildings
+vancouver_trees
+building_permits
+parking_meters
+flow_sample
+```
+
+<!----------------------------------------------------------------------------->
+
+1.3 Now that you've explored the 4 datasets that you were initially most interested in, let's narrow it down to 2. What lead you to choose these 2? Briefly explain your choices below, and feel free to include any code in your explanation.
+
+<!-------------------------- Start your work below ---------------------------->
+
+I chose cancer_sample and vancouver_trees because I often work with quantitative data but also categorical data. Before my grad studies in linguistics I studied biology (specifically in cancer genetics) and worked in a lab (many years ago during my BA) so the data makes more sense to me with cancer data and the second most understandable to me is the trees data. Perhaps neither is relevant to my current work and I am not an expert on either dataset but I have a good enough understanding of this for this project I think. I don't know much about the other topics and find the datasets a bit too untidy. 
+<!----------------------------------------------------------------------------->
+
+1.4 Time for the final decision! Going back to the beginning, it's important to have an *end goal* in mind. For example, if I had chosen the `titanic` dataset for my project, I might've wanted to explore the relationship between survival and other variables. Try to think of 1 research question that you would want to answer with each dataset. Note them down below, and make your final choice based on what seems more interesting to you!
+
+<!-------------------------- Start your work below ---------------------------->
+
+RQ (cancer_sample): Which variable is the best predictor of a MALIGNANT diagnosis? (Perhaps to start, comparing only ave radius, texture, smoothness, and compactness)
+RQ (vancouver_trees): Does tree age correlate to diameter for each species? 
+
+I have decided to work with "vancouver_trees". 
+<!----------------------------------------------------------------------------->
+
+# Important note
+
+Read Tasks 2 and 3 *fully* before starting to complete either of them. Probably also a good point to grab a coffee to get ready for the fun part!
+
+This project is semi-guided, but meant to be *independent*. For this reason, you will complete tasks 2 and 3 below (under the **START HERE** mark) as if you were writing your own exploratory data analysis report, and this guidance never existed! Feel free to add a brief introduction section to your project, format the document with markdown syntax as you deem appropriate, and structure the analysis as you deem appropriate. Remember, marks will be awarded for completion of the 4 tasks, but 10 points of the whole project are allocated to a reproducible and clean analysis. If you feel lost, you can find a sample data analysis [here](https://www.kaggle.com/headsortails/tidy-titarnic) to have a better idea. However, bear in mind that it is **just an example** and you will not be required to have that level of complexity in your project.
+
+# Task 2: Exploring your dataset (15 points)
+
+If we rewind and go back to the learning objectives, you'll see that by the end of this deliverable, you should have formulated *4* research questions about your data that you may want to answer during your project. However, it may be handy to do some more exploration on your dataset of choice before creating these questions - by looking at the data, you may get more ideas. **Before you start this task, read all instructions carefully until you reach START HERE under Task 3**.
+
+2.1 Complete *4 out of the following 8 exercises* to dive deeper into your data. All datasets are different and therefore, not all of these tasks may make sense for your data - which is why you should only answer *4*. Use *dplyr* and *ggplot*.
+
+-> 1.  Plot the distribution of a numeric variable.
+-> 2.  Create a new variable based on other variables in your data (only if it makes sense)
+3.  Investigate how many missing values there are per variable. Can you find a way to plot this?
+-> 4.  Explore the relationship between 2 variables in a plot.
+-> 5.  Filter observations in your data according to your own criteria. Think of what you'd like to explore - again, if this was the `titanic` dataset, I may want to narrow my search down to passengers born in a particular year...
+6.  Use a boxplot to look at the frequency of different observations within a single variable. You can do this for more than one variable if you wish!
+7.  Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring.
+8.  Use a density plot to explore any of your variables (that are suitable for this type of plot).
+
+2.2 For each of the 4 exercises that you complete, provide a *brief explanation* of why you chose that exercise in relation to your data (in other words, why does it make sense to do that?), and sufficient comments for a reader to understand your reasoning and code.
+
+<!-------------------------- Start your work below ---------------------------->
+
+Taking a look at my data...
+
+```{r}
+vancouver_trees
+```
+Exercise 1 (From #2.  Create a new variable based on other variables in your data (only if it makes sense)) 
+The date_planted variable was a bit tricky to work with as a continuous variable so I created two new variables from this variable called "year" and "age". 
+"Year" simply extracts the year from the date_planted, and "age" determines what the current age of the tree is in the present year 2022. 
+
+```{r}
+library(lubridate)
+
+vt<- vancouver_trees %>% select(tree_id, genus_name, species_name, common_name, neighbourhood_name, street_side_name, diameter, date_planted, height_range_id) %>% 
+  mutate(year = year(date_planted)) %>% filter(!year == "<NA>") %>% mutate(age = 2022- year)
+vt
+```
+
+Exercise 2 (#4 Explore the relationship between 2 variables in a plot.) I investigated the relation between the tree's age and the tree's diameter by plotting the data on a new variable called "age" as the independent variable and "diameter" as the dependent variable. 
+
+```{r}
+ggplot(vt, aes(x= age, y = diameter)) + geom_point() + labs(x="age", y="diameter")
+```
+
+Exercise 3 (Point #5: Filter observations in your data according to your own criteria. Think of what you'd like to explore - again, if this was the `titanic` dataset, I may want to narrow my search down to passengers born in a particular year.) I am interested to see if trees sampled from Kitsilano had a different distribution than the greater Vancouver context does. To investigate this, I filtered in only data that was associated with trees which came from the neighborhood of Kitsilano. 
+
+```{r}
+vt_kits <- vt%>% filter(neighbourhood_name == "KITSILANO")
+vt_kits
+
+ggplot(vt_kits, aes(x= age, y = diameter)) + geom_point() + labs(x="age", y="diameter")
+```
+Exercise 4 (Point # 1 Plot the distribution of a numeric variable.) What is the age distribution for the trees? To visualize this I plotted the distribution by age. 
+
+```{r}
+ggplot(vt, aes(age)) +
+  geom_histogram(bins = 50)
+```
+An extra exercise (Point # 1 Plot the distribution of a numeric variable.) for curiosity... Which neighborhood has the most trees? I made a histogram here with the count of trees in each neighborhood.
+
+```{r}
+ggplot(vt, aes(neighbourhood_name)) +
+  geom_bar(stat="count") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+<!----------------------------------------------------------------------------->
+
+# Task 3: Write your research questions (5 points)
+
+So far, you have chosen a dataset and gotten familiar with it through exploring the data. Now it's time to figure out 4 research questions that you would like to answer with your data! Write the 4 questions and any additional comments at the end of this deliverable. These questions are not necessarily set in stone - TAs will review them and give you feedback; therefore, you may choose to pursue them as they are for the rest of the project, or make modifications!
+
+<!--- *****START HERE***** --->
+RQ1: Is there a relationship between trees' age and size (diameter) when faceting by tree genus?
+
+RQ2: Are the neighborhoods with the most trees the same neighbors that have the oldest and biggest trees (height index + diameter)?
+
+RQ3: Does the side of the street (ODD or EVEN) have differences in regard to the types of trees which occur on each side of the road?
+
+RQ4: Do neighborhoods that have a name that is "tree-associated" (e.g. arbutus, woodland, cedar cottage, oakridge) have more trees on average than neighborhoods with "non-tree-associated" names?
+
+<!----------------------------------------------------------------------------->
+
+# Task 4: Process and summarize your data (13 points)
+
+From Task 2, you should have an idea of the basic structure of your dataset (e.g. number of rows and columns, class types, etc.). Here, we will start investigating your data more in-depth using various data manipulation functions.
+
+### 1.1 (10 points)
+
+Now, for each of your four research questions, choose one task from options 1-4 (summarizing), and one other task from 4-8 (graphing). You should have 2 tasks done for each research question (8 total). Make sure it makes sense to do them! (e.g. don't use a numerical variables for a task that needs a categorical variable.). Comment on why each task helps (or doesn't!) answer the corresponding research question.
+
+Ensure that the output of each operation is printed!
+
+**Summarizing:**
+
+1.  Compute the *range*, *mean*, and *two other summary statistics* of **one numerical variable** across the groups of **one categorical variable** from your data.
+2.  Compute the number of observations for at least one of your categorical variables. Do not use the function `table()`!
+3.  Create a categorical variable with 3 or more groups from an existing numerical variable. You can use this new variable in the other tasks! *An example: age in years into "child, teen, adult, senior".*
+4.  Based on two categorical variables, calculate two summary statistics of your choosing.
+
+**Graphing:**
+
+5.  Create a graph out of summarized variables that has at least two geom layers.
+6.  Create a graph of your choosing, make one of the axes logarithmic, and format the axes labels so that they are "pretty" or easier to read.
+7.  Make a graph where it makes sense to customize the alpha transparency.
+8.  Create 3 histograms out of summarized variables, with each histogram having different sized bins. Pick the "best" one and explain why it is the best.
+
+Make sure it's clear what research question you are doing each operation for!
+
+<!------------------------- Start your work below ----------------------------->
+RQ1: Is there a relationship between trees' age and size (diameter) when faceting by tree species?
+
+**Summarizing** 
+-> Based on two categorical variables, calculate two summary statistics of your choosing.
+
+Here, I am interested in whether there is a relationship between age and size (diameter) of trees when considering tree genus. 
+Based on this model, it appears that there is a significant relationship between the two when considering tree genus. 
+
+```{r}
+library(effects)
+mod_1 <- lm(diameter ~ age + genus_name, data=vt)
+summary(mod_1)
+plot(allEffects(mod_1))
+#comment1: this helps, because there appears to be a relationship between age and genus type after separating by genus type!
+```
+**Graphing** 
+-> Create a graph out of summarized variables that has at least two geom layers.
+```{r}
+vt_a <- vt %>% filter(genus_name=="ABIES"| genus_name=="ACER" | genus_name =="AESCULUS" | genus_name == "ALBIZIA" | genus_name == "AMELANCHIER" | genus_name == "ALNUS")
+ggplot(vt_a, aes(x= age, y = diameter)) + geom_point() + labs(x="age", y="diameter") + facet_wrap(~genus_name)
+
+#this was helpful into seeing how this approach may have some issues in answering the research question ...
+#comment1:i wanted to get this to wrap by all genus types but there were too many and i was having trouble manipulating it in a way that could even be visable, so here I just filtered out a few of the most 
+#comment2: hmm but from a small sample of some genus types and realize some of these "trends" may be strange to draw equal conclusions... for example, albizia genus only has one sample so of course it is not possible to draw a relationship between these variables (and does not say anything about the genus itself in regards to its specific relationship between age and size). However it is interesting that some species do seem to have a stronger relationship than others. For example, AESCULUS does seem to have a signficant relationship between age and diameter and this seems to be the case in the visualization (although the relationship is not a strong one necessarily). This shows me that I should set some sort of minimum number of trees before running the analysis if this was the direction I wanted to take it in. 
+```
+
+RQ2: Are the neighborhoods with the most trees the same neighbors that have the oldest and biggest trees (height index + diameter)?
+
+**Summarizing** 
+-> 1. Compute the *range*, *mean*, and *two other summary statistics* of **one numerical variable** across the groups of **one categorical variable** from your data.
+
+```{r}
+vt %>% group_by(neighbourhood_name)%>%
+  summarise_at(vars(age), list(min = min, max=max, mean=mean, sd=sd, median=median))
+
+# I have computed the *range* (min and max), *mean*, *standard deviation*, and *median* of age across neighborhood name. This helps answer the research question but does not answer it completely as I would also want to look at the other variables too. It is interesting that the ranges are similar per neighborhood, and the mean age is more similar than I had expected! 
+```
+**Graphing**
+-> 5.  Create a graph out of summarized variables that has at least two geom layers.
+
+```{r}
+ggplot(vt, aes(y=age, x=neighbourhood_name)) +
+  # using violins to show distributions per vowel
+  geom_boxplot() +
+  # adding the median separately as a point
+  stat_summary(fun=median, geom="point", shape=16)+ 
+  scale_fill_brewer(palette="Paired") + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+#Comment: This is helpful as it pretty much confirms what the summary data told me, the age and range is pretty consistent across different neighborhoods!
+```
+
+
+RQ3: Does the side of the street (ODD or EVEN) have differences in regard to the types of trees which occur on each side of the road?
+
+**Summarizing** 
+Used both these in one:
+-> Compute the number of observations for at least one of your categorical variables. Do not use the function `table()`!
+-> Create a categorical variable with 3 or more groups from an existing numerical variable. You can use this new variable in the other tasks! *An example: age in years into "child, teen, adult, senior".*
+```{r}
+vt %>% group_by(street_side_name) %>%filter(street_side_name == "ODD" | street_side_name == "EVEN") %>% 
+  mutate(rel_age = ifelse(age >= 15, "young", "old")) %>% 
+  count(rel_age)
+
+#i was curious if there was a difference in the number of "old" trees vs. "young trees" which occur on each side of the road. it appears overall that there are more young trees than old trees, but there is approximately the same. 
+
+print("prop_old_EVEN")
+11747 / (11747 + 22431)
+print("prop_old_ODD")
+11309 / (11309 + 22455)
+
+#where the proportion of old trees on the even side of the street is 34% and the proportion of old trees on the odd side of the street is 33%
+```
+
+**Graphing** 
+-> 5.  Create a graph out of summarized variables that has at least two geom layers.
+
+```{r}
+ggplot(vt, aes(y=age, x=street_side_name)) +
+  # using violins to show distributions per vowel
+  geom_boxplot() +
+  geom_point() + 
+  # adding the median separately as a point
+  stat_summary(fun=median, geom="point", shape=16)+ 
+  scale_fill_brewer(palette="Paired") + theme_minimal() + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+#Comment: While ODD and EVEN have quite similar distributions and a similar mean for age, the mean (and distributions) for the other street side names e.g. "BIKE MED", "MED" and "PARK" are quite different. 
+```
+
+RQ4: Do neighborhoods that have a name that is "tree-associated" (e.g. arbutus, woodland, cedar cottage, oakridge) have more trees on average than neighborhoods with "non-tree-associated" names?
+
+**Summarizing:**
+-> Compute the number of observations for at least one of your categorical variables. Do not use the function `table()`!
+
+```{r}
+vt %>% mutate(street_tree = ifelse(c(neighbourhood_name == "KENSINGTON-CEDAR COTTAGE" | neighbourhood_name =="OAKRIDGE" | neighbourhood_name =="ARBUTUS-RIDGE"| neighbourhood_name =="RENFREW-COLLINGWOOD" | neighbourhood_name =="GRANDVIEW-WOODLAND"), "tree", "false"))%>% group_by(neighbourhood_name) %>% count(street_tree) 
+
+#I made a new variable called "tree_name". If the neighborhood name is tree-themed the tree will be labeled "tree" if not it will be called "false". Then I counted the number of trees are "tree" themed or non-tree themed. This takes one step towards answering the question of whether neighborhoods with tree-names have more trees in them. 
+```
+
+**Graphing:**
+-> 5.  Create a graph out of summarized variables that has at least two geom layers. 
+(inspired by -> 8.  Create 3 histograms out of summarized variables, with each histogram having different sized bins. Pick the "best" one and explain why it is the best. but it is not technically a "histogram.")
+
+```{r}
+vt<- vt %>% mutate(neigh_tree = ifelse(c(neighbourhood_name == "KENSINGTON-CEDAR COTTAGE" | neighbourhood_name =="OAKRIDGE" | neighbourhood_name =="ARBUTUS-RIDGE"| neighbourhood_name =="RENFREW-COLLINGWOOD" | neighbourhood_name =="GRANDVIEW-WOODLAND"), "tree", "false"))
+
+# tried to use histogram, but changing the bins doesn't change the width because data here is discrete; instead used geom_bar...
+
+#here is a small bin at 0.5
+ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 0.5, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+#here is a normal bin at 0.9
+ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = NULL, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+#here is a fat bin at 1
+ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 1, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+#here is a very fat bin at 1.5
+#ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 1.5, na.rm = TRUE) + theme(axis.text.x = element_text(angle = #90, hjust = 1)) #throws a warning so I will comment it out 
+
+#the NULL bin here makes the most sense. but smaller width could make sense too. the overlapping bars are confusing. 
+
+```
+```{r}
+#overall i really like this plot because it shows which neighborhoods are "tree" and it is cool to see that the top neighborhood does in fact have a "tree" themed name!
+
+ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = NULL, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+<!----------------------------------------------------------------------------->
+
+### 1.2 (3 points)
+
+Based on the operations that you've completed, how much closer are you to answering your research questions? Think about what aspects of your research questions remain unclear. Can your research questions be refined, now that you've investigated your data a bit more? Which research questions are yielding interesting results?
+
+<!-------------------------- Start your work below ---------------------------->
+
+I think I am most interested in ways the neighborhoods differ from each other in the number of trees, the proportion of trees, and the size of trees. I am now thinking of different ways to combine the size of trees using 2 parameters: height and diameter. I can also look at proportation (rather than just count). I can run a linear model here to see if tree name is a predictor of tree count and size. Currently the Research Question has not been fully answered because I only worked with counts.
+
+To reflect this new insight, I refine the research question to:
+
+RQ4: Do neighborhoods that have a name that is "tree-associated" (e.g. arbutus, woodland, cedar cottage, oakridge) have i) more trees on average than neighborhoods with "non-tree-associated" names and ii) bigger trees on average? 
+
+<!----------------------------------------------------------------------------->
+
+### Attribution
+
+Thanks to Icíar Fernández Boyano for mostly putting this together, and Vincenzo Coia for launching.
