@@ -42,19 +42,19 @@ library(tidyverse)
 
 ## For Both Milestones
 
--   Each milestone is worth 45 points. The number of points allocated to
-    each task will be annotated within each deliverable. Tasks that are
-    more challenging will often be allocated more points.
+- Each milestone is worth 45 points. The number of points allocated to
+  each task will be annotated within each deliverable. Tasks that are
+  more challenging will often be allocated more points.
 
--   10 points will be allocated to the reproducibility, cleanliness, and
-    coherence of the overall analysis. While the two milestones will be
-    submitted as independent deliverables, the analysis itself is a
-    continuum - think of it as two chapters to a story. Each chapter, or
-    in this case, portion of your analysis, should be easily followed
-    through by someone unfamiliar with the content.
-    [Here](https://swcarpentry.github.io/r-novice-inflammation/06-best-practices-R/)
-    is a good resource for what constitutes “good code”. Learning good
-    coding practices early in your career will save you hassle later on!
+- 10 points will be allocated to the reproducibility, cleanliness, and
+  coherence of the overall analysis. While the two milestones will be
+  submitted as independent deliverables, the analysis itself is a
+  continuum - think of it as two chapters to a story. Each chapter, or
+  in this case, portion of your analysis, should be easily followed
+  through by someone unfamiliar with the content.
+  [Here](https://swcarpentry.github.io/r-novice-inflammation/06-best-practices-R/)
+  is a good resource for what constitutes “good code”. Learning good
+  coding practices early in your career will save you hassle later on!
 
 ## For Milestone 1
 
@@ -78,11 +78,11 @@ for tagging your release on Github.
 
 By the end of this milestone, you should:
 
--   Become familiar with your dataset of choosing
--   Select 4 questions that you would like to answer with your data
--   Generate a reproducible and clear report using R Markdown
--   Become familiar with manipulating and summarizing your data in
-    tibbles using `dplyr`, with a research question in mind.
+- Become familiar with your dataset of choosing
+- Select 4 questions that you would like to answer with your data
+- Generate a reproducible and clear report using R Markdown
+- Become familiar with manipulating and summarizing your data in tibbles
+  using `dplyr`, with a research question in mind.
 
 # Task 1: Choose your favorite dataset (10 points)
 
@@ -90,42 +90,42 @@ The `datateachr` package by Hayley Boyce and Jordan Bourak currently
 composed of 7 semi-tidy datasets for educational purposes. Here is a
 brief description of each dataset:
 
--   *apt_buildings*: Acquired courtesy of The City of Toronto’s Open
-    Data Portal. It currently has 3455 rows and 37 columns.
+- *apt_buildings*: Acquired courtesy of The City of Toronto’s Open Data
+  Portal. It currently has 3455 rows and 37 columns.
 
--   *building_permits*: Acquired courtesy of The City of Vancouver’s
-    Open Data Portal. It currently has 20680 rows and 14 columns.
+- *building_permits*: Acquired courtesy of The City of Vancouver’s Open
+  Data Portal. It currently has 20680 rows and 14 columns.
 
--   *cancer_sample*: Acquired courtesy of UCI Machine Learning
-    Repository. It currently has 569 rows and 32 columns.
+- *cancer_sample*: Acquired courtesy of UCI Machine Learning Repository.
+  It currently has 569 rows and 32 columns.
 
--   *flow_sample*: Acquired courtesy of The Government of Canada’s
-    Historical Hydrometric Database. It currently has 218 rows and 7
-    columns.
+- *flow_sample*: Acquired courtesy of The Government of Canada’s
+  Historical Hydrometric Database. It currently has 218 rows and 7
+  columns.
 
--   *parking_meters*: Acquired courtesy of The City of Vancouver’s Open
-    Data Portal. It currently has 10032 rows and 22 columns.
+- *parking_meters*: Acquired courtesy of The City of Vancouver’s Open
+  Data Portal. It currently has 10032 rows and 22 columns.
 
--   *steam_games*: Acquired courtesy of Kaggle. It currently has 40833
-    rows and 21 columns.
+- *steam_games*: Acquired courtesy of Kaggle. It currently has 40833
+  rows and 21 columns.
 
--   *vancouver_trees*: Acquired courtesy of The City of Vancouver’s Open
-    Data Portal. It currently has 146611 rows and 20 columns.
+- *vancouver_trees*: Acquired courtesy of The City of Vancouver’s Open
+  Data Portal. It currently has 146611 rows and 20 columns.
 
 **Things to keep in mind**
 
--   We hope that this project will serve as practice for carrying our
-    your own *independent* data analysis. Remember to comment your code,
-    be explicit about what you are doing, and write notes in this
-    markdown document when you feel that context is required. As you
-    advance in the project, prompts and hints to do this will be
-    diminished - it’ll be up to you!
+- We hope that this project will serve as practice for carrying our your
+  own *independent* data analysis. Remember to comment your code, be
+  explicit about what you are doing, and write notes in this markdown
+  document when you feel that context is required. As you advance in the
+  project, prompts and hints to do this will be diminished - it’ll be up
+  to you!
 
--   Before choosing a dataset, you should always keep in mind **your
-    goal**, or in other ways, *what you wish to achieve with this data*.
-    This mini data-analysis project focuses on *data wrangling*,
-    *tidying*, and *visualization*. In short, it’s a way for you to get
-    your feet wet with exploring data on your own.
+- Before choosing a dataset, you should always keep in mind **your
+  goal**, or in other ways, *what you wish to achieve with this data*.
+  This mini data-analysis project focuses on *data wrangling*,
+  *tidying*, and *visualization*. In short, it’s a way for you to get
+  your feet wet with exploring data on your own.
 
 And that is exactly the first thing that you will do!
 
@@ -184,13 +184,13 @@ comments outside of the code chunk?
 
 ``` r
 ### EXPLORE HERE ###
-#steam_games  
-#cancer_sample 
-#apt_buildings
-#vancouver_trees
-#building_permits
-#parking_meters
-#flow_sample
+#steam_games #40,833 rows, 21 columns, each unique sample is marked by id (double class type), lots of untidy information e.g. game details comma separated under a single column
+#cancer_sample #569 rows, 32 columns, marked by ID (double class type), numerical variables under are "double" class type 
+#apt_buildings #3455 rows, 37 columns, each unique sample marked by id (double class type), most meaningful data are character descriptors, some are binary (yes, no), some are numerical (double type)
+#vancouver_trees #each sample marked by a unique id called "tree_id", some binary data e.g. "street side name", 146,611 rows and 20 columns (a lot of data!)
+#building_permits #20,680 rows, 14 columns, each marked by id "permit_number", a lot of NA in data, a lot of untidy data
+#parking_meters #meter_id (character vector) marks each unique id, 10,032 rows, 22 columns, time and dollar data, several columns have a lot of missing data "NA"
+#flow_sample #218 rows, 7 columns, station_id is the same throughout dataset - appears that this data is all on one station but is marked by unique samples with "year" (which is a double class type)
 
 #commenting these out after having explored them so I don't have these big datasets taking up space after knitting...
 ```
