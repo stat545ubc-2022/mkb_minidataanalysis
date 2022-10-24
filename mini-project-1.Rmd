@@ -105,13 +105,15 @@ The cancer_sample dataset appears to identify various (mean and sd) measures of 
 
 ```{r}
 ### EXPLORE HERE ###
-#steam_games  
-#cancer_sample 
-#apt_buildings
-#vancouver_trees
-#building_permits
-#parking_meters
-#flow_sample
+#steam_games #40,833 rows, 21 columns, each unique sample is marked by id (double class type), lots of untidy information e.g. game details comma separated under a single column
+#cancer_sample #569 rows, 32 columns, marked by ID (double class type), numerical variables under are "double" class type 
+#apt_buildings #3455 rows, 37 columns, each unique sample marked by id (double class type), most meaningful data are character descriptors, some are binary (yes, no), some are numerical (double type)
+#vancouver_trees #each sample marked by a unique id called "tree_id", some binary data e.g. "street side name", 146,611 rows and 20 columns (a lot of data!)
+#building_permits #20,680 rows, 14 columns, each marked by id "permit_number", a lot of NA in data, a lot of untidy data
+#parking_meters #meter_id (character vector) marks each unique id, 10,032 rows, 22 columns, time and dollar data, several columns have a lot of missing data "NA"
+#flow_sample #218 rows, 7 columns, station_id is the same throughout dataset - appears that this data is all on one station but is marked by unique samples with "year" (which is a double class type)
+
+#commenting these out after having explored them so I don't have these big datasets taking up space after knitting...
 
 #commenting these out after having explored them so I don't have these big datasets taking up space after knitting...
 ```
