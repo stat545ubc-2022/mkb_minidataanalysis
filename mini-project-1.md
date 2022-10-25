@@ -661,26 +661,18 @@ vt<- vt %>% mutate(neigh_tree = ifelse(c(neighbourhood_name == "KENSINGTON-CEDAR
 # tried to use histogram, but changing the bins doesn't change the width because data here is discrete; instead used geom_bar...
 
 #here is a small bin at 0.5
-ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 0.5, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+#ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 0.5, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+#here is a normal bin at 0.9
+ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = NULL, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
 
 ![](mini-project-1_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 ``` r
-#here is a normal bin at 0.9
-ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = NULL, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
-```
-
-![](mini-project-1_files/figure-gfm/unnamed-chunk-16-2.png)<!-- -->
-
-``` r
 #here is a fat bin at 1
-ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 1, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
-```
+#ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 1, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-![](mini-project-1_files/figure-gfm/unnamed-chunk-16-3.png)<!-- -->
-
-``` r
 #here is a very fat bin at 1.5
 #ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 1.5, na.rm = TRUE) + theme(axis.text.x = element_text(angle = #90, hjust = 1)) #throws a warning so I will comment it out 
 
