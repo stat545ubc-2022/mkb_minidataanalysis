@@ -193,6 +193,8 @@ comments outside of the code chunk?
 #flow_sample #218 rows, 7 columns, station_id is the same throughout dataset - appears that this data is all on one station but is marked by unique samples with "year" (which is a double class type)
 
 #commenting these out after having explored them so I don't have these big datasets taking up space after knitting...
+
+#commenting these out after having explored them so I don't have these big datasets taking up space after knitting...
 ```
 
 <!----------------------------------------------------------------------------->
@@ -291,28 +293,8 @@ comments for a reader to understand your reasoning and code.
 Taking a look at my data…
 
 ``` r
-vancouver_trees
+#vancouver_trees
 ```
-
-    ## # A tibble: 146,611 × 20
-    ##    tree_id civic_number std_st…¹ genus…² speci…³ culti…⁴ commo…⁵ assig…⁶ root_…⁷
-    ##      <dbl>        <dbl> <chr>    <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-    ##  1  149556          494 W 58TH … ULMUS   AMERIC… BRANDON BRANDO… N       N      
-    ##  2  149563          450 W 58TH … ZELKOVA SERRATA <NA>    JAPANE… N       N      
-    ##  3  149579         4994 WINDSOR… STYRAX  JAPONI… <NA>    JAPANE… N       N      
-    ##  4  149590          858 E 39TH … FRAXIN… AMERIC… AUTUMN… AUTUMN… Y       N      
-    ##  5  149604         5032 WINDSOR… ACER    CAMPES… <NA>    HEDGE … N       N      
-    ##  6  149616          585 W 61ST … PYRUS   CALLER… CHANTI… CHANTI… N       N      
-    ##  7  149617         4909 SHERBRO… ACER    PLATAN… COLUMN… COLUMN… N       N      
-    ##  8  149618         4925 SHERBRO… ACER    PLATAN… COLUMN… COLUMN… N       N      
-    ##  9  149619         4969 SHERBRO… ACER    PLATAN… COLUMN… COLUMN… N       N      
-    ## 10  149625          720 E 39TH … FRAXIN… AMERIC… AUTUMN… AUTUMN… N       N      
-    ## # … with 146,601 more rows, 11 more variables: plant_area <chr>,
-    ## #   on_street_block <dbl>, on_street <chr>, neighbourhood_name <chr>,
-    ## #   street_side_name <chr>, height_range_id <dbl>, diameter <dbl>, curb <chr>,
-    ## #   date_planted <date>, longitude <dbl>, latitude <dbl>, and abbreviated
-    ## #   variable names ¹​std_street, ²​genus_name, ³​species_name, ⁴​cultivar_name,
-    ## #   ⁵​common_name, ⁶​assigned, ⁷​root_barrier
 
 Exercise 1 (From \#2. Create a new variable based on other variables in
 your data (only if it makes sense))
@@ -337,26 +319,8 @@ library(lubridate)
 ``` r
 vt<- vancouver_trees %>% select(tree_id, genus_name, species_name, common_name, neighbourhood_name, street_side_name, diameter, date_planted, height_range_id) %>% 
   mutate(year = year(date_planted)) %>% filter(!year == "<NA>") %>% mutate(age = 2022- year)
-vt
+#vt
 ```
-
-    ## # A tibble: 70,063 × 11
-    ##    tree_id genus_name speci…¹ commo…² neigh…³ stree…⁴ diame…⁵ date_pla…⁶ heigh…⁷
-    ##      <dbl> <chr>      <chr>   <chr>   <chr>   <chr>     <dbl> <date>       <dbl>
-    ##  1  149556 ULMUS      AMERIC… BRANDO… MARPOLE EVEN      10    1999-01-13       2
-    ##  2  149563 ZELKOVA    SERRATA JAPANE… MARPOLE EVEN      10    1996-05-31       4
-    ##  3  149579 STYRAX     JAPONI… JAPANE… KENSIN… EVEN       4    1993-11-22       3
-    ##  4  149590 FRAXINUS   AMERIC… AUTUMN… KENSIN… EVEN      18    1996-04-29       4
-    ##  5  149604 ACER       CAMPES… HEDGE … KENSIN… EVEN       9    1993-12-17       2
-    ##  6  149617 ACER       PLATAN… COLUMN… KENSIN… ODD       15    1993-12-16       3
-    ##  7  149618 ACER       PLATAN… COLUMN… KENSIN… ODD       14    1993-12-16       3
-    ##  8  149619 ACER       PLATAN… COLUMN… KENSIN… ODD       16    1993-12-16       2
-    ##  9  149625 FRAXINUS   AMERIC… AUTUMN… KENSIN… EVEN       7.5  1993-12-03       2
-    ## 10  149626 TILIA      EUCHLO… CRIMEA… KENSIN… EVEN       7.75 1993-12-03       2
-    ## # … with 70,053 more rows, 2 more variables: year <dbl>, age <dbl>, and
-    ## #   abbreviated variable names ¹​species_name, ²​common_name,
-    ## #   ³​neighbourhood_name, ⁴​street_side_name, ⁵​diameter, ⁶​date_planted,
-    ## #   ⁷​height_range_id
 
 Exercise 2 (#4 Explore the relationship between 2 variables in a plot.)
 What I did: I investigated the relation between the tree’s age and the
