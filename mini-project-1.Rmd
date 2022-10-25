@@ -193,7 +193,7 @@ What I did: I am interested to see if trees sampled from Kitsilano had a differe
 
 ```{r}
 vt_kits <- vt%>% filter(neighbourhood_name == "KITSILANO")
-vt_kits
+#vt_kits
 
 ggplot(vt_kits, aes(x= age, y = diameter)) + geom_point() + labs(x="age", y="diameter")
 ```
