@@ -345,28 +345,8 @@ which came from the neighborhood of Kitsilano.
 
 ``` r
 vt_kits <- vt%>% filter(neighbourhood_name == "KITSILANO")
-vt_kits
-```
+#vt_kits
 
-    ## # A tibble: 2,564 × 11
-    ##    tree_id genus_name speci…¹ commo…² neigh…³ stree…⁴ diame…⁵ date_pla…⁶ heigh…⁷
-    ##      <dbl> <chr>      <chr>   <chr>   <chr>   <chr>     <dbl> <date>       <dbl>
-    ##  1  155373 PRUNUS     CERASI… NIGHT … KITSIL… EVEN       10   2000-01-21       1
-    ##  2  155413 ULMUS      AMERIC… BRANDO… KITSIL… EVEN       14.5 2000-01-21       4
-    ##  3  155445 ACER       FREEMA… FREEMA… KITSIL… ODD         3   1997-03-20       2
-    ##  4  155446 ACER       RUBRUM  KARPIC… KITSIL… EVEN       16   1996-04-16       4
-    ##  5  156380 FRAXINUS   PENNSY… PATMOR… KITSIL… ODD        14   1994-11-22       3
-    ##  6  156382 FRAXINUS   PENNSY… PATMOR… KITSIL… ODD        17.8 1994-11-22       2
-    ##  7  156390 ACER       CAMPES… HEDGE … KITSIL… ODD        10   1994-11-21       2
-    ##  8  156413 FRAXINUS   AMERIC… AUTUMN… KITSIL… ODD        10   1994-11-23       2
-    ##  9  156487 ACER       PLATAN… GLOBEH… KITSIL… EVEN        5   1994-11-15       2
-    ## 10  156489 ACER       CAMPES… HEDGE … KITSIL… EVEN       10   1994-11-15       2
-    ## # … with 2,554 more rows, 2 more variables: year <dbl>, age <dbl>, and
-    ## #   abbreviated variable names ¹​species_name, ²​common_name,
-    ## #   ³​neighbourhood_name, ⁴​street_side_name, ⁵​diameter, ⁶​date_planted,
-    ## #   ⁷​height_range_id
-
-``` r
 ggplot(vt_kits, aes(x= age, y = diameter)) + geom_point() + labs(x="age", y="diameter")
 ```
 
