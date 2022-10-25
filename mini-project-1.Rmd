@@ -165,7 +165,7 @@ If we rewind and go back to the learning objectives, you'll see that by the end 
 Taking a look at my data...
 
 ```{r}
-vancouver_trees
+#vancouver_trees
 ```
 Exercise 1 (From #2.  Create a new variable based on other variables in your data (only if it makes sense)) 
 
@@ -177,7 +177,7 @@ library(lubridate)
 
 vt<- vancouver_trees %>% select(tree_id, genus_name, species_name, common_name, neighbourhood_name, street_side_name, diameter, date_planted, height_range_id) %>% 
   mutate(year = year(date_planted)) %>% filter(!year == "<NA>") %>% mutate(age = 2022- year)
-vt
+#vt
 ```
 
 Exercise 2 (#4 Explore the relationship between 2 variables in a plot.) 
