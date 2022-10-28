@@ -294,7 +294,12 @@ RQ2: Are the neighborhoods with the most trees the same neighbors that have the 
 task<- vt %>% group_by(neighbourhood_name)%>%
   summarise_at(vars(age), list(min = min, max=max, mean=mean, sd=sd, median=median))
 
-here::here("output", "file_i_want.csv")
+dir.create(here::here("output"))
+
+write_csv(task, here::here("output", "file_i_want.csv"))
+# View files in the worksheet_06a_data folder:
+dir(here::here("worksheet_06a_data")) #here::here runs the function regardless of it is loaded or not 
+
 
 # I have computed the *range* (min and max), *mean*, *standard deviation*, and *median* of age across neighborhood name. This helps answer the research question but does not answer it completely as I would also want to look at the other variables too. It is interesting that the ranges are similar per neighborhood, and the mean age is more similar than I had expected! 
 ```
