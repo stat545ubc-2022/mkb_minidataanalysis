@@ -372,8 +372,7 @@ Write your model object from Task 3 to an R binary file (an RDS), and load it ag
 <!-------------------------- Start your work below ---------------------------->
 
 ```{r}
-saveRDS(mod.1, here::here("output", "mod_task3.RDS")) #nice it allows me to combine these functions 
-
+#saveRDS(mod.1, here::here("output", "mod_task3.RDS")) #nice it allows me to combine these functions 
 readRDS("mod_task3.RDS") #nice!
 ```
 
