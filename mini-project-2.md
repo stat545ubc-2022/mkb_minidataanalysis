@@ -1,0 +1,672 @@
+Mini Data Analysis Milestone 2
+================
+
+*To complete this milestone, you can edit [this `.rmd`
+file](https://raw.githubusercontent.com/UBC-STAT/stat545.stat.ubc.ca/master/content/mini-project/mini-project-2.Rmd)
+directly. Fill in the sections that are commented out with
+`<!--- start your work here--->`. When you are done, make sure to knit
+to an `.md` file by changing the output in the YAML header to
+`github_document`, before submitting a tagged release on canvas.*
+
+# Welcome to your second (and last) milestone in your mini data analysis project!
+
+In Milestone 1, you explored your data, came up with research questions,
+and obtained some results by making summary tables and graphs. This
+time, we will first explore more in depth the concept of *tidy data.*
+Then, you’ll be sharpening some of the results you obtained from your
+previous milestone by:
+
+- Manipulating special data types in R: factors and/or dates and times.
+- Fitting a model object to your data, and extract a result.
+- Reading and writing data as separate files.
+
+**NOTE**: The main purpose of the mini data analysis is to integrate
+what you learn in class in an analysis. Although each milestone provides
+a framework for you to conduct your analysis, it’s possible that you
+might find the instructions too rigid for your data set. If this is the
+case, you may deviate from the instructions – just make sure you’re
+demonstrating a wide range of tools and techniques taught in this class.
+
+# Instructions
+
+**To complete this milestone**, edit [this very `.Rmd`
+file](https://raw.githubusercontent.com/UBC-STAT/stat545.stat.ubc.ca/master/content/mini-project/mini-project-2.Rmd)
+directly. Fill in the sections that are tagged with
+`<!--- start your work here--->`.
+
+**To submit this milestone**, make sure to knit this `.Rmd` file to an
+`.md` file by changing the YAML output settings from
+`output: html_document` to `output: github_document`. Commit and push
+all of your work to your mini-analysis GitHub repository, and tag a
+release on GitHub. Then, submit a link to your tagged release on canvas.
+
+**Points**: This milestone is worth 55 points (compared to the 45 points
+of the Milestone 1): 45 for your analysis, and 10 for your entire
+mini-analysis GitHub repository. Details follow.
+
+**Research Questions**: In Milestone 1, you chose two research questions
+to focus on. Wherever realistic, your work in this milestone should
+relate to these research questions whenever we ask for justification
+behind your work. In the case that some tasks in this milestone don’t
+align well with one of your research questions, feel free to discuss
+your results in the context of a different research question.
+
+# Learning Objectives
+
+By the end of this milestone, you should:
+
+- Understand what *tidy* data is, and how to create it using `tidyr`.
+- Generate a reproducible and clear report using R Markdown.
+- Manipulating special data types in R: factors and/or dates and times.
+- Fitting a model object to your data, and extract a result.
+- Reading and writing data as separate files.
+
+# Setup
+
+Begin by loading your data and the tidyverse package below:
+
+``` r
+library(datateachr) # <- might contain the data you picked!
+library(tidyverse)
+```
+
+# Task 1: Tidy your data (15 points)
+
+In this task, we will do several exercises to reshape our data. The goal
+here is to understand how to do this reshaping with the `tidyr` package.
+
+A reminder of the definition of *tidy* data:
+
+- Each row is an **observation**
+- Each column is a **variable**
+- Each cell is a **value**
+
+*Tidying* data is sometimes necessary because it can simplify
+computation. Other times it can be nice to organize data so that it can
+be easier to understand when read manually.
+
+### 2.1 (2.5 points)
+
+Based on the definition above, can you identify if your data is tidy or
+untidy? Go through all your columns, or if you have \>8 variables, just
+pick 8, and explain whether the data is untidy or tidy.
+
+<!--------------------------- Start your work below --------------------------->
+
+``` r
+#vancouver_trees
+
+#Overall, this data is tidy. Looking at variables: tree_id (1), genus_name (2), species_name (3), neighbourhood_name (4), street_side_name (5), diameter (6), and height_range_id (7): the data is tidy because 1) each variable forms a column, 2) each observation forms a row, and 3) each cell is in a single measurement.
+
+#For some research questions, the variable "data_planted" (8)could be tidier, for example for a research question looking at age it would be helpful to have a unique, and identifiable column which specifies for ""age" based on year "year" planted and "age" of the tree. 
+```
+
+<!----------------------------------------------------------------------------->
+
+### 2.2 (5 points)
+
+Now, if your data is tidy, untidy it! Then, tidy it back to it’s
+original state.
+
+If your data is untidy, then tidy it! Then, untidy it back to it’s
+original state.
+
+Be sure to explain your reasoning for this task. Show us the “before”
+and “after”.
+
+<!--------------------------- Start your work below --------------------------->
+
+\#untidying
+
+``` r
+#original dataset / "before"
+#vancouver_trees %>% arrange(date_planted)
+#commenting out the original dataset because its very big, 
+#notes on these data: the "before" dataframe here has a date_planted column with date numbers as variables and another for "street_side_name" with corresponding variables beneath it 
+
+vt_untidy <- vancouver_trees %>% pivot_wider(names_from= street_side_name, 
+                                            values_from= date_planted)
+#making untidy / "after"
+#vt_untidy
+#commenting out because it is very big 
+#notes on these data: this is the "after" untidying which has the dates which correspond to various "sides of the street". one reason why this could be done is to obtain the proportion of dates under each "side of street" variable. this data is untidy now because i've moved the values from date_planted from a separate identifiable column and placed two types of information in a wide format, where date_planted data will be associated under corresponding street side names. 
+
+#making tidy again / "after"
+vt_retidy <- vt_untidy %>% pivot_longer(cols = c("EVEN", "ODD", "MED", "PARK", "BIKE MED", "GREENWAY"),
+  names_to= "street_side_name", values_to= "date_planted") %>% arrange(date_planted)
+
+#vt_retidy
+#once again commenting out because it is very large
+#notes on these data: now i will "tidy" the data back to the original. it was checked to see if it was back to the original using the arrange() function.
+#here to tidy these data i took the columns which describe street_side_name here: "EVEN", "ODD", "MED", "PARK", "BIKE MED", "GREENWAY", and I placed the names of these columns under a single attribute called "street_side_name" and placed the values, originally falling under these separate columns under a single column called "date_planted"
+```
+
+<!----------------------------------------------------------------------------->
+
+### 2.3 (7.5 points)
+
+Now, you should be more familiar with your data, and also have made
+progress in answering your research questions. Based on your interest,
+and your analyses, pick 2 of the 4 research questions to continue your
+analysis in the next four tasks:
+
+<!-------------------------- Start your work below ---------------------------->
+
+1.  RQ 1): Do neighborhoods that have a name that is “tree-associated”
+    (e.g. arbutus, woodland, cedar cottage, oakridge) have i) more trees
+    on average than neighborhoods with “non-tree-associated” names
+2.  RQ 2): Do neighborhoods that have a name that is “tree-associated”
+    (e.g. arbutus, woodland, cedar cottage, oakridge) have ii) bigger
+    trees/older on average?
+
+<!----------------------------------------------------------------------------->
+
+Explain your decision for choosing the above two research questions.
+
+<!--------------------------- Start your work below --------------------------->
+
+I have decided to work with these 2 research questions because I think I
+am sincerely interested in the question about these neighborhoods and
+the trees in them. Which neighborhoods have more and bigger trees? I
+know often these neighborhood names have historical purposes but I was
+curious if these neighborhoods with “tree names” may have some
+relationship with having bigger or more trees. I also liked how these
+categorical data could be mapped with some quantitative data because
+this is similar to work I do in my own research.
+
+<!----------------------------------------------------------------------------->
+
+Now, try to choose a version of your data that you think will be
+appropriate to answer these 2 questions. Use between 4 and 8 functions
+that we’ve covered so far (i.e. by filtering, cleaning, tidy’ing,
+dropping irrelevant columns, etc.).
+
+<!--------------------------- Start your work below --------------------------->
+
+1)  First I will select only relevant columns related to tree id (to
+    help identify number of trees), the neighborhood names, and tree
+    size.
+
+``` r
+tidy_vt1 <- vancouver_trees %>% select(tree_id, neighbourhood_name, height_range_id, diameter, date_planted)
+#tidy_vt1
+```
+
+2)  I want to group by tree id just to ensure that there are no multiple
+    size measures mapped to the same tree (perhaps measuring the
+    diameter over time with the same tree_id which is not data I am
+    interested in).
+
+``` r
+tidy_vt2 <- tidy_vt1  %>% group_by(tree_id)
+#tidy_vt2
+```
+
+3)  I want to remove whatever NA data that may exist.
+
+``` r
+tidy_vt3 <- tidy_vt2  %>% na.omit() 
+#tidy_vt3
+```
+
+4)  Odd! I noticed briefly that there are some height and diameter
+    measures that are “0”. I have no idea what that would entail (what
+    does it mean for a tree to have a diameter or height index of 0?
+    Does the tree not exist?) I can maybe assume this was a way to
+    encode for NA and I will filter out measures of 0 for diameter and
+    height index.
+
+``` r
+tidy_vt4 <- tidy_vt3  %>% filter(height_range_id != 0) %>% filter(diameter != 0)
+#tidy_vt4
+```
+
+<!----------------------------------------------------------------------------->
+
+# Task 2: Special Data Types (10)
+
+For this exercise, you’ll be choosing two of the three tasks below –
+both tasks that you choose are worth 5 points each.
+
+But first, tasks 1 and 2 below ask you to modify a plot you made in a
+previous milestone. The plot you choose should involve plotting across
+at least three groups (whether by facetting, or using an aesthetic like
+colour). Place this plot below (you’re allowed to modify the plot if
+you’d like). If you don’t have such a plot, you’ll need to make one.
+Place the code for your plot below.
+
+<!-------------------------- Start your work below ---------------------------->
+
+``` r
+#previously ...
+#first, i am making a new column to identify whether a neighborhood is tree themed or not. If the neighborhood name is tree-themed the tree will be labeled "tree" if not it will be called "false". Then I counted the number of trees are "tree" themed or non-tree themed. This takes one step towards answering the question of whether neighborhoods with tree-names have more trees in them. 
+tidy_vt5<- tidy_vt4 %>% mutate(tree_theme = ifelse(c(neighbourhood_name == "KENSINGTON-CEDAR COTTAGE" | neighbourhood_name =="OAKRIDGE" | neighbourhood_name =="ARBUTUS-RIDGE"| neighbourhood_name =="RENFREW-COLLINGWOOD" | neighbourhood_name =="GRANDVIEW-WOODLAND"), "tree", "false"))
+
+tidy_vt5
+```
+
+    ## # A tibble: 69,990 × 6
+    ## # Groups:   tree_id [69,990]
+    ##    tree_id neighbourhood_name       height_range_id diameter date_plan…¹ tree_…²
+    ##      <dbl> <chr>                              <dbl>    <dbl> <date>      <chr>  
+    ##  1  149556 MARPOLE                                2    10    1999-01-13  false  
+    ##  2  149563 MARPOLE                                4    10    1996-05-31  false  
+    ##  3  149579 KENSINGTON-CEDAR COTTAGE               3     4    1993-11-22  tree   
+    ##  4  149590 KENSINGTON-CEDAR COTTAGE               4    18    1996-04-29  tree   
+    ##  5  149604 KENSINGTON-CEDAR COTTAGE               2     9    1993-12-17  tree   
+    ##  6  149617 KENSINGTON-CEDAR COTTAGE               3    15    1993-12-16  tree   
+    ##  7  149618 KENSINGTON-CEDAR COTTAGE               3    14    1993-12-16  tree   
+    ##  8  149619 KENSINGTON-CEDAR COTTAGE               2    16    1993-12-16  tree   
+    ##  9  149625 KENSINGTON-CEDAR COTTAGE               2     7.5  1993-12-03  tree   
+    ## 10  149626 KENSINGTON-CEDAR COTTAGE               2     7.75 1993-12-03  tree   
+    ## # … with 69,980 more rows, and abbreviated variable names ¹​date_planted,
+    ## #   ²​tree_theme
+
+``` r
+#next i wanted to make bar plots which would count which neighborhoods had more trees, with blue marking with neighborhoods with tree themed names, red marking for neighborhoods without tree themed names, the x axis marking for the neighborhoods and the y axis indicating the total count
+
+#here is a normal bin at 0.9
+ggplot(tidy_vt5, aes(neighbourhood_name, color=tree_theme)) + geom_bar(stat="count", width = NULL, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+![](mini-project-2_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+<!----------------------------------------------------------------------------->
+
+Now, choose two of the following tasks.
+
+1.  Produce a new plot that reorders a factor in your original plot,
+    using the `forcats` package (3 points). Then, in a sentence or two,
+    briefly explain why you chose this ordering (1 point here for
+    demonstrating understanding of the reordering, and 1 point for
+    demonstrating some justification for the reordering, which could be
+    subtle or speculative.)
+
+2.  Produce a new plot that groups some factor levels together into an
+    “other” category (or something similar), using the `forcats` package
+    (3 points). Then, in a sentence or two, briefly explain why you
+    chose this grouping (1 point here for demonstrating understanding of
+    the grouping, and 1 point for demonstrating some justification for
+    the grouping, which could be subtle or speculative.)
+
+3.  If your data has some sort of time-based column like a date (but
+    something more granular than just a year):
+
+    1.  Make a new column that uses a function from the `lubridate` or
+        `tsibble` package to modify your original time-based column. (3
+        points)
+
+        - Note that you might first have to *make* a time-based column
+          using a function like `ymd()`, but this doesn’t count.
+        - Examples of something you might do here: extract the day of
+          the year from a date, or extract the weekday, or let 24 hours
+          elapse on your dates.
+
+    2.  Then, in a sentence or two, explain how your new column might be
+        useful in exploring a research question. (1 point for
+        demonstrating understanding of the function you used, and 1
+        point for your justification, which could be subtle or
+        speculative).
+
+        - For example, you could say something like “Investigating the
+          day of the week might be insightful because penguins don’t
+          work on weekends, and so may respond differently”.
+
+<!-------------------------- Start your work below ---------------------------->
+
+**Task Number**: 1. Produce a new plot that reorders a factor in your
+original plot, using the `forcats` package (3 points). Then, in a
+sentence or two, briefly explain why you chose this ordering (1 point
+here for demonstrating understanding of the reordering, and 1 point for
+demonstrating some justification for the reordering, which could be
+subtle or speculative.)
+
+``` r
+library(forcats)
+#glimpse(tidy_vt5) 
+#wanted to check the factors 
+#force change to factor or numeric
+#tree_theme <- as.factor(tidy_vt5$tree_theme)
+#diameter <- as.numeric(tidy_vt5$diameter)
+#checking to make sure it changed! 
+#class(diameter)
+#class(tree_theme)
+
+vancouver_trees %>% group_by("neighbourhood_name") %>% mutate(neighbourhood_name2 = fct_infreq(neighbourhood_name)) %>% mutate(tree_theme = ifelse(c(neighbourhood_name == "KENSINGTON-CEDAR COTTAGE" | neighbourhood_name =="OAKRIDGE" | neighbourhood_name =="ARBUTUS-RIDGE"| neighbourhood_name =="RENFREW-COLLINGWOOD" | neighbourhood_name =="GRANDVIEW-WOODLAND"), "tree", "false"))%>% ggplot(aes(x=neighbourhood_name2, color = tree_theme)) + geom_bar() + theme(axis.text=element_text(angle=90, hjust=1))
+```
+
+![](mini-project-2_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+``` r
+#using the "forcats" package and the function fct_infreq() i organized the graph to display the neighborhood columns in order of their tree count, and the color indicating blue for tree-themed names and red for non tree-themed named neighborhoods
+
+#this visualization helps answer the current research question because it seems that 2 out of three of the top tree-frequent neighborhoods have tree themed names! 
+
+#while this does not account for the size of the neighborhoods and the density of trees-per-square mile sort of data (not indicated in the data set), this is a cool place to start 
+```
+
+<!----------------------------------------------------------------------------->
+<!-------------------------- Start your work below ---------------------------->
+
+**Task Number**: 3. If your data has some sort of time-based column like
+a date (but something more granular than just a year):
+
+    1.  Make a new column that uses a function from the `lubridate` or `tsibble` package to modify your original time-based column. (3 points)
+
+        -   Note that you might first have to *make* a time-based column using a function like `ymd()`, but this doesn't count.
+        -   Examples of something you might do here: extract the day of the year from a date, or extract the weekday, or let 24 hours elapse on your dates.
+
+    2.  Then, in a sentence or two, explain how your new column might be useful in exploring a research question. (1 point for demonstrating understanding of the function you used, and 1 point for your justification, which could be subtle or speculative).
+
+        -   For example, you could say something like "Investigating the day of the week might be insightful because penguins don't work on weekends, and so may respond differently".
+
+``` r
+#1.
+#made an age column using lubridate functions:
+
+library(lubridate)
+```
+
+    ## 
+    ## Attaching package: 'lubridate'
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     date, intersect, setdiff, union
+
+``` r
+tidy_vt5$plant_date <- as.Date(tidy_vt5$date_planted) #like the tree's birthday
+today_date   <- as.Date("2022-10-26") #today's date (how old is the tree today? this can be modifiable over time)
+
+require(lubridate)
+
+tidy_vt6 <- tidy_vt5 %>% mutate(tree_theme = ifelse(c(neighbourhood_name == "KENSINGTON-CEDAR COTTAGE" | neighbourhood_name =="OAKRIDGE" | neighbourhood_name =="ARBUTUS-RIDGE"| neighbourhood_name =="RENFREW-COLLINGWOOD" | neighbourhood_name =="GRANDVIEW-WOODLAND"), "tree", "false")) %>%
+          mutate(age = as.period(interval(start = plant_date, end = today_date))) #get a specific age of each tree!
+
+#tidy_vt6
+#commenting out because its a very big dataset
+
+#2.
+#investigating the age of trees based on dates planted can be used to determine if certain neighborhoods have older/younger trees on average, and to test if neighborhoods with tree-themed names have older trees. In my previous analysis I just estimated age based on year but as many trees were relatively young, the finer granularity received in measuring age based on the date, month and year can capture some age data. 
+```
+
+<!----------------------------------------------------------------------------->
+
+# Task 3: Modelling
+
+## 2.0 (no points)
+
+Pick a research question, and pick a variable of interest (we’ll call it
+“Y”) that’s relevant to the research question. Indicate these.
+
+<!-------------------------- Start your work below ---------------------------->
+
+**Research Question**: Are neighborhoods with tree-themed names
+associated with bigger trees?
+
+**Variable of interest**: diameter
+
+<!----------------------------------------------------------------------------->
+
+## 2.1 (5 points)
+
+Fit a model or run a hypothesis test that provides insight on this
+variable with respect to the research question. Store the model object
+as a variable, and print its output to screen. We’ll omit having to
+justify your choice, because we don’t expect you to know about model
+specifics in STAT 545.
+
+- **Note**: It’s OK if you don’t know how these models/tests work. Here
+  are some examples of things you can do here, but the sky’s the limit.
+
+  - You could fit a model that makes predictions on Y using another
+    variable, by using the `lm()` function.
+  - You could test whether the mean of Y equals 0 using `t.test()`, or
+    maybe the mean across two groups are different using `t.test()`, or
+    maybe the mean across multiple groups are different using `anova()`
+    (you may have to pivot your data for the latter two).
+  - You could use `lm()` to test for significance of regression.
+
+<!-------------------------- Start your work below ---------------------------->
+
+``` r
+library(effects)
+```
+
+    ## Loading required package: carData
+
+    ## lattice theme set by effectsTheme()
+    ## See ?effectsTheme for details.
+
+``` r
+tidy_vt6<- tidy_vt4 %>% mutate(tree_theme = ifelse(c(neighbourhood_name == "KENSINGTON-CEDAR COTTAGE" | neighbourhood_name =="OAKRIDGE" | neighbourhood_name =="ARBUTUS-RIDGE"| neighbourhood_name =="RENFREW-COLLINGWOOD" | neighbourhood_name =="GRANDVIEW-WOODLAND"), "tree", "false"))
+
+tidy_vt6$tree_theme <- as.factor(tidy_vt6$tree_theme)
+tidy_vt6$diameter <- as.numeric(tidy_vt6$diameter)
+
+#fitting a generalised linear model 
+
+mod.1 <- glm(tree_theme ~ diameter, family="binomial", data=tidy_vt6)
+mod.1
+```
+
+    ## 
+    ## Call:  glm(formula = tree_theme ~ diameter, family = "binomial", data = tidy_vt6)
+    ## 
+    ## Coefficients:
+    ## (Intercept)     diameter  
+    ##   -0.914186     0.009571  
+    ## 
+    ## Degrees of Freedom: 69989 Total (i.e. Null);  69988 Residual
+    ## Null Deviance:       85210 
+    ## Residual Deviance: 85180     AIC: 85180
+
+``` r
+#i used a general linear model because the tree-theme is binary "tree" (yes, the neighborhood has a tree-themed name) or "false" (no, the neighborhood does not have a tree-themed name); and i wanted to determine if there is some relationship between tree-themed neighborhood names and the diameter of the tree (having bigger trees) 
+```
+
+<!----------------------------------------------------------------------------->
+
+## 2.2 (5 points)
+
+Produce something relevant from your fitted model: either predictions on
+Y, or a single value like a regression coefficient or a p-value.
+
+- Be sure to indicate in writing what you chose to produce.
+- Your code should either output a tibble (in which case you should
+  indicate the column that contains the thing you’re looking for), or
+  the thing you’re looking for itself.
+- Obtain your results using the `broom` package if possible. If your
+  model is not compatible with the broom function you’re needing, then
+  you can obtain your results by some other means, but first indicate
+  which broom function is not compatible.
+
+<!-------------------------- Start your work below ---------------------------->
+
+``` r
+summary(mod.1)
+```
+
+    ## 
+    ## Call:
+    ## glm(formula = tree_theme ~ diameter, family = "binomial", data = tidy_vt6)
+    ## 
+    ## Deviance Residuals: 
+    ##     Min       1Q   Median       3Q      Max  
+    ## -2.5641  -0.8396  -0.8311   1.5409   1.5798  
+    ## 
+    ## Coefficients:
+    ##              Estimate Std. Error z value Pr(>|z|)    
+    ## (Intercept) -0.914186   0.013385 -68.301  < 2e-16 ***
+    ## diameter     0.009571   0.001825   5.243 1.58e-07 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## (Dispersion parameter for binomial family taken to be 1)
+    ## 
+    ##     Null deviance: 85210  on 69989  degrees of freedom
+    ## Residual deviance: 85180  on 69988  degrees of freedom
+    ## AIC: 85184
+    ## 
+    ## Number of Fisher Scoring iterations: 4
+
+``` r
+plot(allEffects(mod.1))
+```
+
+![](mini-project-2_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+``` r
+#there does appear to be a signficant (strong positive) relationship between diameter and if the neighborhood has a name which is tree-themed based on this model (i am not sure why it seems to be making the proportion between 0 and 1 and why the slope extends more than one. maybe there is a problem because there are simply more trees in these neighborhoods and they are being stacked because why also is x going to 400 diameter...)
+#the p-value here which is significant 
+#the model demonstrates the effect of tree_theme on diameter 
+```
+
+<!----------------------------------------------------------------------------->
+
+# Task 4: Reading and writing data
+
+Get set up for this exercise by making a folder called `output` in the
+top level of your project folder / repository. You’ll be saving things
+there.
+
+## 3.1 (5 points)
+
+Take a summary table that you made from Milestone 1 (Task 4.2), and
+write it as a csv file in your `output` folder. Use the `here::here()`
+function.
+
+- **Robustness criteria**: You should be able to move your Mini Project
+  repository / project folder to some other location on your computer,
+  or move this very Rmd file to another location within your project
+  repository / folder, and your code should still work.
+- **Reproducibility criteria**: You should be able to delete the csv
+  file, and remake it simply by knitting this Rmd file.
+
+<!-------------------------- Start your work below ---------------------------->
+
+``` r
+library(here)
+```
+
+    ## here() starts at /Users/michellebaron/Downloads
+
+``` r
+#i wrote a summary table from milestone one using the function below
+#here::here("output", "file_i_want.csv")
+
+#dir.create(here::here("output"))
+#write_csv(task, here::here("output", "file_i_want.csv"))
+# View files in the worksheet_06a_data folder:
+#dir(here::here("worksheet_06a_data")) #here::here runs the function regardless of it is loaded or not 
+
+
+#this is specifically that summary table
+# task<- vt %>% group_by(neighbourhood_name)%>%
+#  summarise_at(vars(age), list(min = min, max=max, mean=mean, sd=sd, median=median))
+
+#this was pushed and committed to my milestone 1 on github
+#i saved a folder called "output" which contains this csv file 
+```
+
+<!----------------------------------------------------------------------------->
+
+## 3.2 (5 points)
+
+Write your model object from Task 3 to an R binary file (an RDS), and
+load it again. Be sure to save the binary file in your `output` folder.
+Use the functions `saveRDS()` and `readRDS()`.
+
+- The same robustness and reproducibility criteria as in 3.1 apply here.
+
+<!-------------------------- Start your work below ---------------------------->
+
+``` r
+#saveRDS(mod.1, here::here("output", "mod_task3.RDS")) #nice it allows me to combine these functions 
+readRDS("mod_task3.RDS") #nice!
+```
+
+    ## 
+    ## Call:  glm(formula = tree_theme ~ diameter, family = "binomial", data = tidy_vt6)
+    ## 
+    ## Coefficients:
+    ## (Intercept)     diameter  
+    ##   -0.914186     0.009571  
+    ## 
+    ## Degrees of Freedom: 69989 Total (i.e. Null);  69988 Residual
+    ## Null Deviance:       85210 
+    ## Residual Deviance: 85180     AIC: 85180
+
+<!----------------------------------------------------------------------------->
+
+# Tidy Repository
+
+Now that this is your last milestone, your entire project repository
+should be organized. Here are the criteria we’re looking for.
+
+## Main README (3 points)
+
+There should be a file named `README.md` at the top level of your
+repository. Its contents should automatically appear when you visit the
+repository on GitHub.
+
+Minimum contents of the README file:
+
+- In a sentence or two, explains what this repository is, so that
+  future-you or someone else stumbling on your repository can be
+  oriented to the repository.
+- In a sentence or two (or more??), briefly explains how to engage with
+  the repository. You can assume the person reading knows the material
+  from STAT 545A. Basically, if a visitor to your repository wants to
+  explore your project, what should they know?
+
+Once you get in the habit of making README files, and seeing more README
+files in other projects, you’ll wonder how you ever got by without them!
+They are tremendously helpful.
+
+## File and Folder structure (3 points)
+
+You should have at least four folders in the top level of your
+repository: one for each milestone, and one output folder. If there are
+any other folders, these are explained in the main README.
+
+Each milestone document is contained in its respective folder, and
+nowhere else.
+
+Every level-1 folder (that is, the ones stored in the top level, like
+“Milestone1” and “output”) has a `README` file, explaining in a sentence
+or two what is in the folder, in plain language (it’s enough to say
+something like “This folder contains the source for Milestone 1”).
+
+## Output (2 points)
+
+All output is recent and relevant:
+
+- All Rmd files have been `knit`ted to their output, and all data files
+  saved from Task 4 above appear in the `output` folder.
+- All of these output files are up-to-date – that is, they haven’t
+  fallen behind after the source (Rmd) files have been updated.
+- There should be no relic output files. For example, if you were
+  knitting an Rmd to html, but then changed the output to be only a
+  markdown file, then the html file is a relic and should be deleted.
+
+Our recommendation: delete all output files, and re-knit each
+milestone’s Rmd file, so that everything is up to date and relevant.
+
+PS: there’s a way where you can run all project code using a single
+command, instead of clicking “knit” three times. More on this in STAT
+545B!
+
+## Error-free code (1 point)
+
+This Milestone 1 document knits error-free, and the Milestone 2 document
+knits error-free.
+
+## Tagged release (1 point)
+
+You’ve tagged a release for Milestone 1, and you’ve tagged a release for
+Milestone 2.
+
+### Attribution
+
+Thanks to Victor Yuan for mostly putting this together.
