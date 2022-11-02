@@ -291,8 +291,15 @@ RQ2: Are the neighborhoods with the most trees the same neighbors that have the 
 -> 1. Compute the *range*, *mean*, and *two other summary statistics* of **one numerical variable** across the groups of **one categorical variable** from your data.
 
 ```{r}
-vt %>% group_by(neighbourhood_name)%>%
+task<- vt %>% group_by(neighbourhood_name)%>%
   summarise_at(vars(age), list(min = min, max=max, mean=mean, sd=sd, median=median))
+
+dir.create(here::here("output"))
+
+write_csv(task, here::here("output", "file_i_want.csv"))
+# View files in the worksheet_06a_data folder:
+dir(here::here("worksheet_06a_data")) #here::here runs the function regardless of it is loaded or not 
+
 
 # I have computed the *range* (min and max), *mean*, *standard deviation*, and *median* of age across neighborhood name. This helps answer the research question but does not answer it completely as I would also want to look at the other variables too. It is interesting that the ranges are similar per neighborhood, and the mean age is more similar than I had expected! 
 ```
@@ -365,13 +372,13 @@ vt<- vt %>% mutate(neigh_tree = ifelse(c(neighbourhood_name == "KENSINGTON-CEDAR
 # tried to use histogram, but changing the bins doesn't change the width because data here is discrete; instead used geom_bar...
 
 #here is a small bin at 0.5
-ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 0.5, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+#ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 0.5, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 #here is a normal bin at 0.9
 ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = NULL, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 #here is a fat bin at 1
-ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 1, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+#ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 1, na.rm = TRUE) + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 #here is a very fat bin at 1.5
 #ggplot(vt, aes(neighbourhood_name, color=neigh_tree)) + geom_bar(stat="count", width = 1.5, na.rm = TRUE) + theme(axis.text.x = element_text(angle = #90, hjust = 1)) #throws a warning so I will comment it out 
